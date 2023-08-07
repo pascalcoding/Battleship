@@ -12,6 +12,7 @@ const createTwoDimensionalArray = (rows, colls, fillValue) => {
 
 const createGameboard = () => {
   const board = createTwoDimensionalArray(10, 10, 'E'); // E -> Empty; S -> Ship; M -> Missed; H -> Hit;
+  const ships = [];
 
   const getBoard = () => board;
   const placeShip = (ship, x, y) => {
@@ -24,10 +25,29 @@ const createGameboard = () => {
         board[x + i][y] = 'S';
       }
     }
+
+    ships.push({ ship, x, y });
   };
 
   const receiveAttack = (x, y) => {
-    board[x][y] = board[x][y] === 'S' ? 'H' : 'M';
+    if (board[x][y] === 'E') {
+      board[x][y] = 'M';
+    } else {
+      board[x][y] = 'H';
+
+      const shipInfo = ships.find((shipInfo) => {
+        const { ship, x: shipX, y: shipY } = shipInfo;
+        if (ship.getDirection() === 'x') {
+          return x === shipX && y >= shipY && y < shipY + ship.getLength();
+        } else {
+          return y === shipY && x >= shipX && x < shipX + ship.getLength();
+        }
+      });
+
+      if (shipInfo) {
+        shipInfo.ship.hit();
+      }
+    }
   };
 
   return {

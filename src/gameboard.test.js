@@ -26,7 +26,7 @@ describe('Gameboard', () => {
     }
   });
 
-  it('Attacks work accordingly', () => {
+  it('Attacks change board accordingly', () => {
     const gameboard = createGameboard();
     const ship1 = createShip(5);
     gameboard.placeShip(ship1, 0, 0);
@@ -36,5 +36,18 @@ describe('Gameboard', () => {
 
     expect(gameboard.getBoard()[0][0]).toBe('H');
     expect(gameboard.getBoard()[1][0]).toBe('M');
+  });
+
+  it('Attacks also update the corresponding ship', () => {
+    const gameboard = createGameboard();
+    const ship1 = createShip(2);
+    gameboard.placeShip(ship1, 0, 0);
+
+    gameboard.receiveAttack(0, 0);
+    expect(ship1.getHits()).toBe(1);
+
+    gameboard.receiveAttack(0, 1);
+    expect(ship1.getHits()).toBe(2);
+    expect(ship1.isSunk()).toBe(true);
   });
 });
