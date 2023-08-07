@@ -1,6 +1,7 @@
 const createShip = (length) => {
   let sunk = false;
   let hits = 0;
+  let direction = 'x'; // x -> horizontal; y -> vertical;
 
   const hit = () => {
     hits += 1;
@@ -8,6 +9,12 @@ const createShip = (length) => {
   };
 
   const getLength = () => length;
+
+  const getDirection = () => direction;
+
+  const changeDirection = () => {
+    direction = direction === 'x' ? 'y' : 'x';
+  };
 
   const isSunk = () => sunk;
 
@@ -18,6 +25,8 @@ const createShip = (length) => {
     getHits,
     hit,
     getLength,
+    changeDirection,
+    getDirection,
   };
 };
 
