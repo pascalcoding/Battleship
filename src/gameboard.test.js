@@ -25,4 +25,16 @@ describe('Gameboard', () => {
       expect(gameboard.getBoard()[i + 2][1]).toBe('S');
     }
   });
+
+  it('Attacks work accordingly', () => {
+    const gameboard = createGameboard();
+    const ship1 = createShip(5);
+    gameboard.placeShip(ship1, 0, 0);
+
+    gameboard.receiveAttack(0, 0);
+    gameboard.receiveAttack(1, 0);
+
+    expect(gameboard.getBoard()[0][0]).toBe('H');
+    expect(gameboard.getBoard()[1][0]).toBe('M');
+  });
 });

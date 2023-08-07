@@ -26,9 +26,14 @@ const createGameboard = () => {
     }
   };
 
+  const receiveAttack = (x, y) => {
+    board[x][y] = board[x][y] === 'S' ? 'H' : 'M';
+  };
+
   return {
     getBoard,
     placeShip,
+    receiveAttack,
   };
 };
 
