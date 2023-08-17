@@ -61,8 +61,13 @@ const domManipulation = (() => {
     verticalRadioContainer.appendChild(verticalRadio);
     verticalRadioContainer.appendChild(verticalLabel);
 
+    const submitButton = document.createElement('button');
+    submitButton.setAttribute('id', 'submit-ship-button');
+    submitButton.textContent = 'Place Ship!';
+
     shipSelector.appendChild(horizontalRadioContainer);
     shipSelector.appendChild(verticalRadioContainer);
+    shipSelector.appendChild(submitButton);
   };
 
   const drawAttackCoordinateSelector = () => {
@@ -71,7 +76,13 @@ const domManipulation = (() => {
     const attackInput = document.createElement('input');
     attackInput.type = 'text';
     attackInput.placeholder = 'Enter attack coordinate (e.g. A10)';
+
+    const submitButton = document.createElement('button');
+    submitButton.setAttribute('id', 'submit-attack-button');
+    submitButton.textContent = 'Attack a square!';
+
     attackSelector.appendChild(attackInput);
+    attackSelector.appendChild(submitButton);
   };
 
   return {
