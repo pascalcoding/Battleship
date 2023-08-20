@@ -1,4 +1,11 @@
+const names = new Array(6).fill('');
+names[2] = 'Patrol Boat';
+names[3] = 'Submarine';
+names[4] = 'Battleship';
+names[5] = 'Carrier';
+
 const createShip = (length) => {
+  const name = names[length];
   let sunk = false;
   let hits = 0;
   let direction = 'x'; // x -> horizontal; y -> vertical;
@@ -20,6 +27,8 @@ const createShip = (length) => {
 
   const getHits = () => hits;
 
+  const getName = () => name;
+
   return {
     isSunk,
     getHits,
@@ -27,6 +36,7 @@ const createShip = (length) => {
     getLength,
     changeDirection,
     getDirection,
+    getName,
   };
 };
 
