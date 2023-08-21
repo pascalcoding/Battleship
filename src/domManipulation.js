@@ -33,13 +33,20 @@ const domManipulation = (() => {
     }
   };
 
-  const drawShipSelector = () => {
+  const drawShipSelector = (player) => {
     const shipSelector = document.getElementById('ship-selector');
 
-    const shipInput = document.createElement('input');
-    shipInput.type = 'text';
-    shipInput.placeholder = 'Select ship (e.g. A10)';
-    shipSelector.appendChild(shipInput);
+    const shipCoordInput = document.createElement('input');
+    shipCoordInput.type = 'text';
+    shipCoordInput.placeholder = 'Input coordinate (e.g. A10)';
+
+    const shipTypeSelect = document.createElement('select');
+    player.getShips().forEach((ship) => {
+      const opt = document.createElement('option');
+      opt.value = ship.getName();
+      opt.textContent = ship.getName();
+      shipTypeSelect.appendChild(opt);
+    });
 
     const horizontalRadioContainer = document.createElement('div');
     const horizontalRadio = document.createElement('input');
@@ -65,6 +72,8 @@ const domManipulation = (() => {
     submitButton.setAttribute('id', 'submit-ship-button');
     submitButton.textContent = 'Place Ship!';
 
+    shipSelector.appendChild(shipCoordInput);
+    shipSelector.appendChild(shipTypeSelect);
     shipSelector.appendChild(horizontalRadioContainer);
     shipSelector.appendChild(verticalRadioContainer);
     shipSelector.appendChild(submitButton);
