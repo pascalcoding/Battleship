@@ -9,6 +9,8 @@ const domManipulation = (() => {
         const cell = document.createElement('div');
         cell.classList.add('gameboard-cell');
         cell.textContent = boardArr[i][j];
+        cell.dataset.row = i;
+        cell.dataset.col = j;
         row.appendChild(cell);
       }
       playerBoard.appendChild(row);
