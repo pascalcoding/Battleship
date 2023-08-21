@@ -85,6 +85,7 @@ const domManipulation = (() => {
     const attackSelector = document.getElementById('attack-coord-selector');
 
     const attackInput = document.createElement('input');
+    attackInput.setAttribute('id', 'attack-input');
     attackInput.type = 'text';
     attackInput.placeholder = 'Enter attack coordinate (e.g. A10)';
 

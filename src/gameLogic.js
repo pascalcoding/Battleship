@@ -6,21 +6,20 @@ const gameLogic = (() => {
   let player;
   let computer;
 
+  const convertCharToNum = (char) => {
+    return char.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
+  };
+
   const isLegalShipPlacement = (x, y, ship, board) => {};
   const isLegalAttack = (x, y, board) => {
-    const charCode = x.toUpperCase().charCodeAt(0);
-    const aCharCode = 'A'.charCodeAt(0);
-    const jCharCode = 'J'.charCodeAt(0);
-
-    if (!(charCode >= aCharCode && charCode <= jCharCode)) {
+    if (!(x <= 9 && x >= 0)) {
       return false;
     }
-    if (!(y <= 10 && y >= 1)) {
+    if (!(y <= 9 && y >= 0)) {
       return false;
     }
 
-    const xIndex = charCode - aCharCode;
-    const cell = board.getBoard()[xIndex][y];
+    const cell = board.getBoard()[x][y];
 
     if (cell === 'M' || cell === 'H') {
       return false;
@@ -50,10 +49,12 @@ const gameLogic = (() => {
 
     submitAttackButton.addEventListener('click', () => {
       const coord = attackInput.value;
-      const x = coord.slice(0, 1);
-      const y = coord.slice(1, coord.length);
+      const x = convertCharToNum(coord.slice(0, 1));
+      const y = Number(coord.slice(1, coord.length));
+
       if (isLegalAttack(x, y, computer.getBoard())) {
         player.takeTurn(computer.getBoard(), x, y);
+        //domManipulation.drawComputerBoard(computer.getBoard());
       }
     });
   };
@@ -65,8 +66,10 @@ const gameLogic = (() => {
     domManipulation.drawPlayerBoard(player.getBoard());
     domManipulation.drawComputerBoard(computer.getBoard());
 
-    domManipulation.drawShipSelector();
+    domManipulation.drawShipSelector(player);
     domManipulation.drawAttackCoordinateSelector();
+
+    addEventListeners();
   };
 
   return {
