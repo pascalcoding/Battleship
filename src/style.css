@@ -31,3 +31,13 @@ body {
   width: 20px;
   height: 20px;
 }
+
+.ship {
+  border: 1px solid blue;
+  background-color: rgba(0, 0, 255, 0.05);
+}
+
+.miss {
+  border: 4px solid black;
+  border-radius: 8px;
+}

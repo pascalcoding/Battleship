@@ -54,7 +54,7 @@ const gameLogic = (() => {
 
       if (isLegalAttack(x, y, computer.getBoard())) {
         player.takeTurn(computer.getBoard(), x, y);
-        //domManipulation.drawComputerBoard(computer.getBoard());
+        domManipulation.updateCell(computer.getBoard(), x, y, true);
       }
     });
   };

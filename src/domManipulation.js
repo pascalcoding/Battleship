@@ -37,6 +37,27 @@ const domManipulation = (() => {
     }
   };
 
+  const updateCell = (board, x, y, computer) => {
+    const boardArr = board.getBoard();
+    let cells;
+    if (computer) {
+      cells = Array.from(
+        document.querySelectorAll('#computer-board > * > .gameboard-cell')
+      );
+    } else {
+      document.querySelectorAll('#player-board > * > .gameboard-cell');
+    }
+    cells.forEach((cell) => {
+      if (
+        parseInt(cell.dataset.row) === x &&
+        parseInt(cell.dataset.col) === y
+      ) {
+        console.log('test');
+        cell.textContent = boardArr[x][y];
+      }
+    });
+  };
+
   const drawShipSelector = (player) => {
     const shipSelector = document.getElementById('ship-selector');
 
@@ -104,6 +125,7 @@ const domManipulation = (() => {
     drawComputerBoard,
     drawShipSelector,
     drawAttackCoordinateSelector,
+    updateCell,
   };
 })();
 
