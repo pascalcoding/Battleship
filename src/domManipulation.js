@@ -26,6 +26,8 @@ const domManipulation = (() => {
       for (let j = 0; j < 10; j++) {
         const cell = document.createElement('div');
         cell.classList.add('gameboard-cell');
+        cell.dataset.row = i;
+        cell.dataset.col = j;
         if (boardArr[i][j] == 'H' || boardArr[i][j] == 'M') {
           cell.textContent = boardArr[i][j];
         }
