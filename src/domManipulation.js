@@ -66,6 +66,7 @@ const domManipulation = (() => {
     shipCoordInput.placeholder = 'Input coordinate (e.g. A10)';
 
     const shipTypeSelect = document.createElement('select');
+    shipTypeSelect.setAttribute('id', 'ship-type-select');
     player.getShips().forEach((ship) => {
       const opt = document.createElement('option');
       opt.value = ship.getName();

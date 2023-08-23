@@ -111,13 +111,28 @@ const gameLogic = (() => {
     const submitAttackButton = document.getElementById('submit-attack-button');
 
     submitShipButton.addEventListener('click', () => {
+      const shipName = document.getElementById('ship-type-select').value;
+      let currentShip;
+      player.getShips().forEach((ship) => {
+        if (ship.getName() === shipName) {
+          currentShip = ship;
+        }
+      });
       const horizontal = horizontalRadio.checked;
       const coord = shipInput.value;
-      const x = coord.slice(0, 1);
-      const y = coord.slice(1, coord.length);
-      //Legal Input
-
-      //Place Ship
+      const x = convertCharToNum(coord.slice(0, 1));
+      const y = Number(coord.slice(1, coord.length));
+      if (gameLogic.isLegalShipPlacement(x, y)) {
+        player.getBoard().placeShip(currentShip, x, y);
+        const options = Array.from(
+          document.querySelectorAll('#ship-type-slect > option')
+        );
+        options.forEach((opt) => {
+          if (opt.value === ship.getName()) {
+            opt.remove();
+          }
+        });
+      }
     });
 
     submitAttackButton.addEventListener('click', () => {
