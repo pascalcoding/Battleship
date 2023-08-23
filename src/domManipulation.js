@@ -45,7 +45,9 @@ const domManipulation = (() => {
         document.querySelectorAll('#computer-board > * > .gameboard-cell')
       );
     } else {
-      document.querySelectorAll('#player-board > * > .gameboard-cell');
+      cells = Array.from(
+        document.querySelectorAll('#player-board > * > .gameboard-cell')
+      );
     }
     cells.forEach((cell) => {
       if (
@@ -62,6 +64,7 @@ const domManipulation = (() => {
     const shipSelector = document.getElementById('ship-selector');
 
     const shipCoordInput = document.createElement('input');
+    shipCoordInput.setAttribute('id', 'ship-coord-input');
     shipCoordInput.type = 'text';
     shipCoordInput.placeholder = 'Input coordinate (e.g. A10)';
 

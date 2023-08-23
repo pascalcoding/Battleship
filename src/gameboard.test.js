@@ -22,7 +22,7 @@ describe('Gameboard', () => {
       expect(gameboard.getBoard()[0][i]).toBe('S');
     }
     for (let i = 0; i < 3; i++) {
-      expect(gameboard.getBoard()[i + 2][1]).toBe('S');
+      expect(gameboard.getBoard()[2 + i][1]).toBe('S');
     }
   });
 

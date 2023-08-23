@@ -102,7 +102,7 @@ const gameLogic = (() => {
   };
 
   const addEventListeners = () => {
-    const shipInput = document.getElementById('ship-input');
+    const shipInput = document.getElementById('ship-coord-input');
     const horizontalRadio = document.querySelector(
       'input[type="radio"][name="direction"][value="horizontal"]'
     );
@@ -120,25 +120,37 @@ const gameLogic = (() => {
       });
       const horizontal = horizontalRadio.checked;
       const coord = shipInput.value;
-      const x = convertCharToNum(coord.slice(0, 1));
-      const y = Number(coord.slice(1, coord.length));
-      if (gameLogic.isLegalShipPlacement(x, y)) {
+      const y = convertCharToNum(coord.slice(0, 1));
+      const x = Number(coord.slice(1, coord.length));
+      if (
+        gameLogic.isLegalShipPlacement(x, y, currentShip, player.getBoard())
+      ) {
         player.getBoard().placeShip(currentShip, x, y);
         const options = Array.from(
-          document.querySelectorAll('#ship-type-slect > option')
+          document.querySelectorAll('#ship-type-select > option')
         );
-        options.forEach((opt) => {
-          if (opt.value === ship.getName()) {
+        options.every((opt) => {
+          if (opt.value === currentShip.getName()) {
             opt.remove();
+            return false;
           }
         });
+        if (currentShip.getDirection() === 'x') {
+          for (let i = y; i < y + currentShip.getLength(); i++) {
+            domManipulation.updateCell(player.getBoard(), x, i);
+          }
+        } else {
+          for (let i = x; i < x + currentShip.getLength(); i++) {
+            domManipulation.updateCell(player.getBoard(), i, y);
+          }
+        }
       }
     });
 
     submitAttackButton.addEventListener('click', () => {
       const coord = attackInput.value;
-      const x = convertCharToNum(coord.slice(0, 1));
-      const y = Number(coord.slice(1, coord.length));
+      const y = convertCharToNum(coord.slice(0, 1));
+      const x = Number(coord.slice(1, coord.length));
 
       if (isLegalAttack(x, y, computer.getBoard())) {
         player.takeTurn(computer.getBoard(), x, y);
