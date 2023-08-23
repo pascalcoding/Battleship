@@ -47,9 +47,13 @@ body {
 }
 
 .hit {
-  content: '\d7';
   border: 1px solid red;
   color: red;
+}
+
+.hit:after {
+  content: '\d7';
+  font-size: 35px;
 }
 
 .miss {

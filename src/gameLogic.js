@@ -5,6 +5,7 @@ import domManipulation from './domManipulation';
 const gameLogic = (() => {
   let player;
   let computer;
+  let turn = player;
 
   const convertCharToNum = (char) => {
     return char.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
@@ -172,10 +173,41 @@ const gameLogic = (() => {
     addEventListeners();
   };
 
+  const getWinner = () => {
+    const playerBoardArr = player.getBoard().getBoard();
+    const computerBoardArr = computer.getBoard().getBoard();
+    let playerWon = true;
+    let computerWon = true;
+    player: for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (playerBoardArr[i][j] === 'S') {
+          playerWon = false;
+          break player;
+        }
+      }
+    }
+    computer: for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (computerBoardArr[i][j] === 'S') {
+          computerWon = false;
+          break computer;
+        }
+      }
+    }
+    if (computerWon) {
+      return 'computer';
+    } else if (playerWon) {
+      return 'player';
+    } else {
+      return '';
+    }
+  };
+
   return {
     initGame,
     isLegalAttack,
     isLegalShipPlacement,
+    getWinner,
   };
 })();
 
