@@ -8,7 +8,6 @@ const domManipulation = (() => {
       for (let j = 0; j < 10; j++) {
         const cell = document.createElement('div');
         cell.classList.add('gameboard-cell');
-        cell.textContent = boardArr[i][j];
         cell.dataset.row = i;
         cell.dataset.col = j;
         row.appendChild(cell);
@@ -54,8 +53,15 @@ const domManipulation = (() => {
         parseInt(cell.dataset.row) === x &&
         parseInt(cell.dataset.col) === y
       ) {
-        console.log('test');
-        cell.textContent = boardArr[x][y];
+        if (boardArr[x][y] === 'M') {
+          const missElement = document.createElement('div');
+          missElement.classList.add('miss');
+          cell.appendChild(missElement);
+        } else if (boardArr[x][y] === 'S') {
+          cell.classList.add('ship');
+        } else if (boardArr[x][y] === 'H') {
+          cell.classList.add('hit');
+        }
       }
     });
   };
