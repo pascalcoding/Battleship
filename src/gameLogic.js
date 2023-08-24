@@ -5,7 +5,7 @@ import domManipulation from './domManipulation';
 const gameLogic = (() => {
   let player;
   let computer;
-  let turn = player;
+  let currentPlayer;
 
   const convertCharToNum = (char) => {
     return char.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
@@ -104,8 +104,8 @@ const gameLogic = (() => {
 
   const addEventListeners = () => {
     const shipInput = document.getElementById('ship-coord-input');
-    const horizontalRadio = document.querySelector(
-      'input[type="radio"][name="direction"][value="horizontal"]'
+    const verticalRadio = document.querySelector(
+      'input[type="radio"][name="direction"][value="vertical"]'
     );
     const attackInput = document.getElementById('attack-input');
     const submitShipButton = document.getElementById('submit-ship-button');
@@ -119,7 +119,10 @@ const gameLogic = (() => {
           currentShip = ship;
         }
       });
-      const horizontal = horizontalRadio.checked;
+      const vertical = verticalRadio.checked;
+      if (vertical) {
+        currentShip.changeDirection();
+      }
       const coord = shipInput.value;
       const y = convertCharToNum(coord.slice(0, 1));
       const x = Number(coord.slice(1, coord.length));
