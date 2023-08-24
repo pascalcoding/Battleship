@@ -6,6 +6,7 @@ const gameLogic = (() => {
   let player;
   let computer;
   let currentPlayer;
+  let countPlaced = 0;
 
   const convertCharToNum = (char) => {
     return char.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
@@ -120,7 +121,7 @@ const gameLogic = (() => {
         }
       });
       const vertical = verticalRadio.checked;
-      if (vertical) {
+      if (vertical && currentShip.getDirection() != 'y') {
         currentShip.changeDirection();
       }
       const coord = shipInput.value;
@@ -129,6 +130,7 @@ const gameLogic = (() => {
       if (
         gameLogic.isLegalShipPlacement(x, y, currentShip, player.getBoard())
       ) {
+        countPlaced++;
         player.getBoard().placeShip(currentShip, x, y);
         const options = Array.from(
           document.querySelectorAll('#ship-type-select > option')
@@ -148,6 +150,12 @@ const gameLogic = (() => {
             domManipulation.updateCell(player.getBoard(), i, y);
           }
         }
+      }
+      if (countPlaced >= 5) {
+        document.getElementById('ship-selector').classList.add('invisible');
+        document
+          .getElementById('attack-coord-selector')
+          .classList.remove('invisible');
       }
     });
 
