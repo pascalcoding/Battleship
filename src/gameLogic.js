@@ -14,7 +14,7 @@ const gameLogic = (() => {
 
   const isLegalShipPlacement = (x, y, ship, board) => {
     const boardArr = board.getBoard();
-
+    //Coordinates between 0 and 9
     if (!(x <= 9 && x >= 0)) {
       return false;
     }
@@ -23,38 +23,7 @@ const gameLogic = (() => {
     }
 
     if (ship.getDirection() === 'x') {
-      //Check own squares
-      if (x + ship.getLength() > 9) {
-        return false;
-      }
-      const startPos = x >= 1 ? x - 1 : x;
-      const endPos =
-        x + ship.getLength() <= 8
-          ? x + ship.getLength() + 1
-          : x + ship.getLength();
-      //Check own row
-      for (let i = startPos; i < endPos; i++) {
-        if (boardArr[i][y] != 'E') {
-          return false;
-        }
-      }
-      //Check row above
-      if (y > 0) {
-        for (let i = startPos; i < endPos; i++) {
-          if (boardArr[i][y - 1] != 'E') {
-            return false;
-          }
-        }
-      }
-      //Check row below
-      if (y < 9) {
-        for (let i = startPos; i < endPos; i++) {
-          if (boardArr[i][y + 1] != 'E') {
-            return false;
-          }
-        }
-      }
-    } else {
+      // Check own squares
       if (y + ship.getLength() > 9) {
         return false;
       }
@@ -63,22 +32,58 @@ const gameLogic = (() => {
         y + ship.getLength() <= 8
           ? y + ship.getLength() + 1
           : y + ship.getLength();
+      // Check own row
       for (let i = startPos; i < endPos; i++) {
-        if (boardArr[x][i] != 'E') {
+        if (boardArr[x][i] !== 'E') {
+          // Iterate over [x][i]
           return false;
         }
       }
+      // Check row above
       if (x > 0) {
         for (let i = startPos; i < endPos; i++) {
-          if (boardArr[x - 1][i] != 'E') {
+          if (boardArr[x - 1][i] !== 'E') {
+            // Iterate over [x - 1][i]
             return false;
           }
         }
       }
-
+      // Check row below
       if (x < 9) {
         for (let i = startPos; i < endPos; i++) {
-          if (boardArr[x + 1][i] != 'E') {
+          if (boardArr[x + 1][i] !== 'E') {
+            // Iterate over [x + 1][i]
+            return false;
+          }
+        }
+      }
+    } else {
+      if (x + ship.getLength() > 9) {
+        return false;
+      }
+      const startPos = x >= 1 ? x - 1 : x;
+      const endPos =
+        x + ship.getLength() <= 8
+          ? x + ship.getLength() + 1
+          : x + ship.getLength();
+      for (let i = startPos; i < endPos; i++) {
+        if (boardArr[i][y] !== 'E') {
+          // Iterate over [i][y]
+          return false;
+        }
+      }
+      if (y > 0) {
+        for (let i = startPos; i < endPos; i++) {
+          if (boardArr[i][y - 1] !== 'E') {
+            // Iterate over [i][y - 1]
+            return false;
+          }
+        }
+      }
+      if (y < 9) {
+        for (let i = startPos; i < endPos; i++) {
+          if (boardArr[i][y + 1] !== 'E') {
+            // Iterate over [i][y + 1]
             return false;
           }
         }
@@ -108,6 +113,9 @@ const gameLogic = (() => {
     const verticalRadio = document.querySelector(
       'input[type="radio"][name="direction"][value="vertical"]'
     );
+    const horizontalRaido = document.querySelector(
+      'input[type="radio"][name="direction"][value="horizontal"]'
+    );
     const attackInput = document.getElementById('attack-input');
     const submitShipButton = document.getElementById('submit-ship-button');
     const submitAttackButton = document.getElementById('submit-attack-button');
@@ -120,8 +128,11 @@ const gameLogic = (() => {
           currentShip = ship;
         }
       });
+      const horizontal = horizontalRaido.checked;
       const vertical = verticalRadio.checked;
       if (vertical && currentShip.getDirection() != 'y') {
+        currentShip.changeDirection();
+      } else if (horizontal && currentShip.getDirection() != 'x') {
         currentShip.changeDirection();
       }
       const coord = shipInput.value;
@@ -136,10 +147,11 @@ const gameLogic = (() => {
           document.querySelectorAll('#ship-type-select > option')
         );
         options.every((opt) => {
-          if (opt.value === currentShip.getName()) {
+          if (opt.value === shipName) {
             opt.remove();
             return false;
           }
+          return true;
         });
         if (currentShip.getDirection() === 'x') {
           for (let i = y; i < y + currentShip.getLength(); i++) {
@@ -160,28 +172,27 @@ const gameLogic = (() => {
     });
 
     submitAttackButton.addEventListener('click', () => {
+      if (currentPlayer === 'computer') return;
       const coord = attackInput.value;
-      const y = convertCharToNum(coord.slice(0, 1));
-      const x = Number(coord.slice(1, coord.length));
+      let y = convertCharToNum(coord.slice(0, 1));
+      let x = Number(coord.slice(1, coord.length));
 
       if (isLegalAttack(x, y, computer.getBoard())) {
         player.takeTurn(computer.getBoard(), x, y);
         domManipulation.updateCell(computer.getBoard(), x, y, true);
+        if (computer.getBoard().getBoard()[x][y] !== 'H') {
+          currentPlayer = 'computer';
+          while (currentPlayer === 'computer') {
+            computer.takeTurn(player.getBoard());
+            ({ x, y } = computer.getLastMove());
+            domManipulation.updateCell(player.getBoard(), x, y, false);
+            if (player.getBoard().getBoard()[x][y] !== 'H') {
+              currentPlayer = player;
+            }
+          }
+        }
       }
     });
-  };
-
-  const initGame = () => {
-    player = createPlayer();
-    computer = createComputerPlayer();
-
-    domManipulation.drawPlayerBoard(player.getBoard());
-    domManipulation.drawComputerBoard(computer.getBoard());
-
-    domManipulation.drawShipSelector(player);
-    domManipulation.drawAttackCoordinateSelector();
-
-    addEventListeners();
   };
 
   const getWinner = () => {
@@ -212,6 +223,20 @@ const gameLogic = (() => {
     } else {
       return '';
     }
+  };
+
+  const initGame = () => {
+    player = createPlayer();
+    computer = createComputerPlayer();
+    currentPlayer = 'player';
+
+    domManipulation.drawPlayerBoard(player.getBoard());
+    domManipulation.drawComputerBoard(computer.getBoard());
+
+    domManipulation.drawShipSelector(player);
+    domManipulation.drawAttackCoordinateSelector();
+
+    addEventListeners();
   };
 
   return {
