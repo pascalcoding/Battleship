@@ -180,6 +180,9 @@ const gameLogic = (() => {
       if (isLegalAttack(x, y, computer.getBoard())) {
         player.takeTurn(computer.getBoard(), x, y);
         domManipulation.updateCell(computer.getBoard(), x, y, true);
+        if (gameLogic.getWinner() === 'player') {
+          alert('The player has won!');
+        }
         if (computer.getBoard().getBoard()[x][y] !== 'H') {
           currentPlayer = 'computer';
           while (currentPlayer === 'computer') {
@@ -188,6 +191,9 @@ const gameLogic = (() => {
             domManipulation.updateCell(player.getBoard(), x, y, false);
             if (player.getBoard().getBoard()[x][y] !== 'H') {
               currentPlayer = player;
+            }
+            if (gameLogic.getWinner() === 'computer') {
+              alert('The Computer has won!');
             }
           }
         }
@@ -203,7 +209,7 @@ const gameLogic = (() => {
     player: for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         if (playerBoardArr[i][j] === 'S') {
-          playerWon = false;
+          computerWon = false;
           break player;
         }
       }
@@ -211,7 +217,7 @@ const gameLogic = (() => {
     computer: for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         if (computerBoardArr[i][j] === 'S') {
-          computerWon = false;
+          playerWon = false;
           break computer;
         }
       }

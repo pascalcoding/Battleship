@@ -21,7 +21,7 @@ describe('gameLogic', () => {
     const ship = createShip(2);
 
     // Check out of bounds placements
-    expect(gameLogic.isLegalShipPlacement(9, 3, ship, board)).toBe(false); // x-coordinate too large
+    expect(gameLogic.isLegalShipPlacement(10, 3, ship, board)).toBe(false); // x-coordinate too large
     expect(gameLogic.isLegalShipPlacement(3, 10, ship, board)).toBe(false); // y-coordinate too large
     expect(gameLogic.isLegalShipPlacement(-1, 2, ship, board)).toBe(false); // x-coordinate too small
     expect(gameLogic.isLegalShipPlacement(2, -1, ship, board)).toBe(false); // y-coordinate too small
