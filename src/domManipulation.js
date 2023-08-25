@@ -72,7 +72,7 @@ const domManipulation = (() => {
     const shipCoordInput = document.createElement('input');
     shipCoordInput.setAttribute('id', 'ship-coord-input');
     shipCoordInput.type = 'text';
-    shipCoordInput.placeholder = 'Input coordinate (e.g. A10)';
+    shipCoordInput.placeholder = 'Input coordinate (e.g. A9)';
 
     const shipTypeSelect = document.createElement('select');
     shipTypeSelect.setAttribute('id', 'ship-type-select');
@@ -120,7 +120,7 @@ const domManipulation = (() => {
     const attackInput = document.createElement('input');
     attackInput.setAttribute('id', 'attack-input');
     attackInput.type = 'text';
-    attackInput.placeholder = 'Enter attack coordinate (e.g. A10)';
+    attackInput.placeholder = 'Enter attack coordinate (e.g. A9)';
 
     const submitButton = document.createElement('button');
     submitButton.setAttribute('id', 'submit-attack-button');
