@@ -3,11 +3,9 @@ import createShip from './ship';
 
 const createShips = () => {
   const ships = [];
-  for (let i = 2; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     ships.push(createShip(i));
   }
-  ships.push(createShip(2));
-
   return ships;
 };
 

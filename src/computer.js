@@ -4,11 +4,9 @@ import createShip from './ship';
 
 const createShips = () => {
   const ships = [];
-  for (let i = 2; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     ships.push(createShip(i));
   }
-  ships.push(createShip(2));
-
   return ships;
 };
 
@@ -16,6 +14,7 @@ const createComputerPlayer = () => {
   const board = createGameboard();
   const ships = createShips();
   const getBoard = () => board;
+  let lastMove;
 
   const getRandomCoordinates = () => {
     const x = Math.floor(Math.random() * 10);
@@ -40,13 +39,16 @@ const createComputerPlayer = () => {
       if (cell !== 'H' && cell !== 'M') {
         legalMoveFound = true;
         enemyBoard.receiveAttack(x, y);
+        lastMove = { x, y };
       }
     }
   };
+  const getLastMove = () => lastMove;
 
   return {
     getBoard,
     takeTurn,
+    getLastMove,
   };
 };
 

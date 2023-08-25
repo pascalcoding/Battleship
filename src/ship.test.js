@@ -7,15 +7,17 @@ describe('Ship', () => {
   });
 
   it('Should initialize with correct name', () => {
-    const ship = createShip(2);
+    const ship1 = createShip(2);
     const ship2 = createShip(3);
     const ship3 = createShip(4);
     const ship4 = createShip(5);
+    const ship5 = createShip(1);
 
-    expect(ship.getName()).toBe('Patrol Boat');
+    expect(ship1.getName()).toBe('Destroyer');
     expect(ship2.getName()).toBe('Submarine');
     expect(ship3.getName()).toBe('Battleship');
     expect(ship4.getName()).toBe('Carrier');
+    expect(ship5.getName()).toBe('Patrol Boat');
   });
 
   it('Updates hits and sunk status accordingly', () => {

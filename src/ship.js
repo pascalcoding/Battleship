@@ -1,5 +1,6 @@
 const names = new Array(6).fill('');
-names[2] = 'Patrol Boat';
+names[1] = 'Patrol Boat';
+names[2] = 'Destroyer';
 names[3] = 'Submarine';
 names[4] = 'Battleship';
 names[5] = 'Carrier';
